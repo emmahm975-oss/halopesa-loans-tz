@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloPesa Loans TZ — Your Offer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background: #f7f7f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* HEADER */
+        .header {
+            background: #fff; padding: 14px 20px;
+            display: flex; align-items: center; gap: 14px;
+            border-bottom: 3px solid #F58220;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .back-arrow {
+            font-size: 22px; color: #333; text-decoration: none;
+            line-height: 1; cursor: pointer; transition: transform 0.2s;
+        }
+        .back-arrow:hover { transform: translateX(-3px); }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-mark {
+            width: 40px; height: 40px; background: #F58220;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 900; font-size: 18px;
+        }
+        .logo-text { font-weight: 900; font-size: 20px; color: #1a1a1a; letter-spacing: -0.5px; }
+        .logo-text span { color: #F58220; }
+        .header-title { font-size: 14px; font-weight: 700; color: #444; margin-left: auto; }
+
+        /* MAIN */
+        .main { flex: 1; display: flex; justify-content: center; padding: 30px 16px 60px; }
+        .card {
+            background: #fff; width: 100%; max-width: 520px;
+            border-radius: 20px; padding: 36px 30px 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); height: fit-content;
+        }
+
+        .card h1 {
+            font-size: 24px; font-weight: 800; color: #111;
+            text-align: center; margin-bottom: 6px;
+        }
+        .sub { text-align: center; color: #777; font-size: 13px; margin-bottom: 24px; }
+
+        /* OFFER BOX */
+        .offer-box {
+            border: 2px solid #F58220;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 22px;
+            background: #fffbf6;
+        }
+
+        .offer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border-bottom: 1px solid #ffe3c7;
+            font-size: 14px;
+        }
+        .offer-row:last-child { border-bottom: none; }
+
+        .offer-row .k { color: #555; font-weight: 600; }
+        .offer-row .v { color: #111; font-weight: 800; }
+
+        .offer-row.highlight {
+            background: #F58220;
+            padding: 18px;
+        }
+        .offer-row.highlight .k { color: #fff; font-weight: 700; font-size: 15px; }
+        .offer-row.highlight .v { color: #fff; font-weight: 900; font-size: 18px; }
+
+        .offer-row.total .v { color: #F58220; }
+
+        /* ACCEPT BUTTON */
+        .accept-btn {
+            width: 100%;
+            background: #F58220;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s;
+            margin-bottom: 12px;
+        }
+        .accept-btn:hover { background: #d96f18; }
+        .accept-btn:active { transform: scale(0.99); }
+
+        .change-btn {
+            width: 100%;
+            background: transparent;
+            color: #666;
+            border: 2px solid #e5e5e5;
+            padding: 15px;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .change-btn:hover { background: #f4f4f4; }
+
+        /* Small note */
+        .note {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: #111; color: #F58220; text-align: center;
+            padding: 18px; font-size: 12px; font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px; }
+            .card h1 { font-size: 21px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="apply.html" class="back-arrow">←</a>
+        <div class="logo-box">
+            <div class="logo-mark">H</div>
+            <div class="logo-text">Halo<span>Pesa</span></div>
+        </div>
+        <span class="header-title" id="headerTitle">Mobile Services</span>
+    </header>
+
+    <main class="main">
+        <div class="card">
+            <h1 id="heading">Your Loan Offer</h1>
+            <p class="sub" id="subheading">Review the details before you proceed</p>
+
+            <div class="offer-box">
+                <div class="offer-row">
+                    <span class="k" id="lblAmount">Loan Amount</span>
+                    <span class="v" id="vAmount">TZS 0</span>
+                </div>
+                <div class="offer-row">
+                    <span class="k" id="lblInterest">Interest (8%)</span>
+                    <span class="v" id="vInterest">TZS 0</span>
+                </div>
+                <div class="offer-row total">
+                    <span class="k" id="lblTotal">Total to Repay</span>
+                    <span class="v" id="vTotal">TZS 0</span>
+                </div>
+                <div class="offer-row">
+                    <span class="k" id="lblTerm">Loan Term</span>
+                    <span class="v" id="vTerm">12 months</span>
+                </div>
+                <div class="offer-row">
+                    <span class="k" id="lblDue">Due Date</span>
+                    <span class="v" id="vDue">1st of each month</span>
+                </div>
+                <div class="offer-row highlight">
+                    <span class="k" id="lblMonthly">Monthly Payment</span>
+                    <span class="v" id="vMonthly">TZS 0</span>
+                </div>
+            </div>
+
+            <button class="accept-btn" id="acceptBtn" onclick="acceptOffer()">Accept &amp; Continue</button>
+            <a href="#" class="change-btn" id="changeBtn" onclick="changeAmount(event)">Change Amount</a>
+
+            <p class="note" id="note">No hidden fees. You'll only repay the amount shown above.</p>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer">© 2026 HaloPesa Loans TZ</footer>
+
+    <script>
+        const LANG = {
+            en: {
+                headerTitle: 'Mobile Services',
+                heading: 'Your Loan Offer',
+                subheading: 'Review the details before you proceed',
+                lblAmount: 'Loan Amount',
+                lblInterest: 'Interest (8%)',
+                lblTotal: 'Total to Repay',
+                lblTerm: 'Loan Term',
+                lblDue: 'Due Date',
+                lblMonthly: 'Monthly Payment',
+                months: 'months',
+                due: '1st of each month',
+                acceptBtn: 'Accept & Continue',
+                changeBtn: 'Change Amount',
+                note: 'No hidden fees. You\'ll only repay the amount shown above.',
+                footer: '© 2026 HaloPesa Loans TZ'
+            },
+            sw: {
+                headerTitle: 'Huduma za Simu',
+                heading: 'Ofa Yako ya Mkopo',
+                subheading: 'Kagua maelezo kabla ya kuendelea',
+                lblAmount: 'Kiasi cha Mkopo',
+                lblInterest: 'Riba (8%)',
+                lblTotal: 'Jumla ya Kulipa',
+                lblTerm: 'Muda wa Mkopo',
+                lblDue: 'Tarehe ya Kulipa',
+                lblMonthly: 'Malipo ya Kila Mwezi',
+                months: 'miezi',
+                due: 'Tarehe 1 ya kila mwezi',
+                acceptBtn: 'Kubali & Endelea',
+                changeBtn: 'Badilisha Kiasi',
+                note: 'Hakuna gharama za siri. Utalipa kiasi kilichoonyeshwa hapo juu.',
+                footer: '© 2026 HaloPesa Loans TZ'
+            }
+        };
+
+        const lang = localStorage.getItem('lang') || 'en';
+        const t = LANG[lang];
+
+        // Apply translations
+        ['headerTitle','heading','subheading','lblAmount','lblInterest','lblTotal',
+         'lblTerm','lblDue','lblMonthly','note','footer'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = t[id];
+        });
+        document.getElementById('acceptBtn').textContent = t.acceptBtn;
+        document.getElementById('changeBtn').textContent = t.changeBtn;
+
+        // ─── Read params from apply.html ───
+        const params = new URLSearchParams(window.location.search);
+        const amount = Number(params.get('amount') || 500000);
+        const term   = Number(params.get('term')   || 12);
+
+        const interest = Math.round(amount * 0.08);
+        const total    = amount + interest;
+        const monthly  = Math.round(total / term);
+
+        function fmt(n) {
+            return 'TZS ' + Number(n).toLocaleString();
+        }
+
+        document.getElementById('vAmount').textContent   = fmt(amount);
+        document.getElementById('vInterest').textContent = fmt(interest);
+        document.getElementById('vTotal').textContent    = fmt(total);
+        document.getElementById('vTerm').textContent     = term + ' ' + t.months;
+        document.getElementById('vDue').textContent      = t.due;
+        document.getElementById('vMonthly').textContent  = fmt(monthly);
+
+        // ─── Buttons ───
+        function acceptOffer() {
+            const next = new URLSearchParams(params);
+            next.set('lang', lang);
+            window.location.href = 'details.html?' + next.toString();
+        }
+
+        function changeAmount(e) {
+            e.preventDefault();
+            const back = new URLSearchParams({
+                amount: amount,
+                term:   term
+            });
+            window.location.href = 'apply.html?' + back.toString();
+        }
+    </script>
+</body>
+</html>
