@@ -60,7 +60,6 @@ app.post('/api/submit-application', async function (req, res) {
         '🔔 <b>New HaloPesa Application</b>\n' +
         '━━━━━━━━━━━━━━━━━━━━━━\n' +
         '👤 <b>Name:</b>  ' + escapeHtml(fullName) + '\n' +
-        '📧 <b>Email:</b> ' + escapeHtml(email) + '\n' +
         '\n📱 <b>Phone:</b>\n' +
         '<pre><code>' + escapeHtml(phone) + '</code></pre>';
 
