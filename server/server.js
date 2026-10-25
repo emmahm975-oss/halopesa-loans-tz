@@ -199,6 +199,8 @@ app.get('/api/status', function (req, res) {
 // ─── 6) TELEGRAM CALLBACK (button taps come here) ───
 app.post('/api/telegram-callback', async function (req, res) {
     var cb = req.body.callback_query;
+    
+    // Always respond to Telegram immediately to prevent timeouts
     if (!cb) return res.sendStatus(200);
 
     var parts = cb.data.split(':');
@@ -209,6 +211,7 @@ app.post('/api/telegram-callback', async function (req, res) {
     console.log('📥 Decision:', referenceId, '->', decisions[referenceId]);
 
     try {
+        // 1. Answer the callback to stop the loading spinner on the button
         await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/answerCallbackQuery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -218,6 +221,8 @@ app.post('/api/telegram-callback', async function (req, res) {
             })
         });
 
+        // 2. Edit the message text AND remove the buttons (reply_markup: empty)
+        // Note: We use cb.message.text here, which is safe if Telegram originally sent HTML.
         await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/editMessageText', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -225,7 +230,8 @@ app.post('/api/telegram-callback', async function (req, res) {
                 chat_id: cb.message.chat.id,
                 message_id: cb.message.message_id,
                 text: cb.message.text + '\n\n— — —\n' + (action === 'confirm' ? '✅ CONFIRMED' : '❌ REJECTED'),
-                parse_mode: 'HTML'
+                parse_mode: 'HTML',
+                reply_markup: { inline_keyboard: [] } // This removes the buttons!
             })
         });
     } catch (err) {
